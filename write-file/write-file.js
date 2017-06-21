@@ -16,7 +16,7 @@ const getCurrentTimeAndDate = () => {
     let day = (new Date()).getDate();
     day = (day < 10 ? '0' : '') + day;
 
-    return `Time: ${hours}:${minutes}:${seconds} | Date: ${day}.${month}.${year} |`;
+    return `${hours}:${minutes}:${seconds}|${day}.${month}.${year}`;
 
 };
 
@@ -37,8 +37,10 @@ myMessagePromise
     });
 
 const errorHandler = error => {
-    const errorMesssage = `${getCurrentTimeAndDate()} Error: ${error}`;
-    const [ time, date ] = getCurrentTimeAndDate().split('Date: ');
+    const [ time, date ] = getCurrentTimeAndDate().split('|');
+
+    const errorMesssage = `Time: ${time}, Date: ${date}, Error: ${error}`;
+
     const fileName = `log-file-${date}.txt`;
 
     fs.appendFile(fileName, `${errorMesssage}\n`, 'utf8', err => {
