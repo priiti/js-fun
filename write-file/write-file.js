@@ -38,8 +38,10 @@ myMessagePromise
 
 const errorHandler = error => {
     const errorMesssage = `${getCurrentTimeAndDate()} Error: ${error}`;
+    const [ time, date ] = getCurrentTimeAndDate().split('Date: ');
+    const fileName = `log-file-${date}.txt`;
 
-    fs.appendFile('text.txt', `${errorMesssage}\n`, 'utf8', err => {
+    fs.appendFile(fileName, `${errorMesssage}\n`, 'utf8', err => {
         if (err) throw err;
     });
 };
