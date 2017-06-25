@@ -18,7 +18,15 @@ class WithTime extends EventEmitter {
 
 const withTime = new WithTime();
 
+withTime.on('data', data => console.log(`Length: ${data.length}`));
+
+// Register uncaught exception handler into process
+process.on('uncaughtException', err => {
+    console.error(err);
+});
+
 withTime.on('begin', () => console.log('Starting executing...'));
 withTime.on('end', () => console.log('Ending executing...'));
 
+withTime.execute(fs.readFile, '');
 withTime.execute(fs.readFile, __filename);
