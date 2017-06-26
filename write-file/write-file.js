@@ -1,23 +1,13 @@
 const fs = require('fs');
 
-const getCurrentTimeAndDate = () => {
-    // Time
-    let hours = (new Date()).getHours();
-    hours = (hours < 10 ? '0' : '') + hours;
-    let minutes = (new Date()).getMinutes();
-    minutes = (minutes < 10 ? '0' : '') + minutes;
-    let seconds = (new Date()).getSeconds();
-    seconds = (seconds < 10 ? '0' : '') + seconds;
+const getCurrentTime = () => {
+    const now = new Date();
+    return `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+};
 
-    // Date
-    let year = (new Date()).getFullYear();
-    let month = (new Date()).getMonth() + 1;
-    month = (month < 10 ? '0' : '') + month;
-    let day = (new Date()).getDate();
-    day = (day < 10 ? '0' : '') + day;
-
-    return `${hours}:${minutes}:${seconds}|${day}.${month}.${year}`;
-
+const getCurrentDate = () => {
+    const now = new Date();
+    return `${now.getDate()}.${now.getMonth() + 1}.${now.getFullYear()}`;
 };
 
 const myMessagePromise = new Promise((resolve, reject) => {
@@ -37,11 +27,9 @@ myMessagePromise
     });
 
 const errorHandler = error => {
-    const [ time, date ] = getCurrentTimeAndDate().split('|');
+    const errorMesssage = `Time: ${getCurrentTime()}, Date: ${getCurrentDate()}, Error: ${error}`;
 
-    const errorMesssage = `Time: ${time}, Date: ${date}, Error: ${error}`;
-
-    const fileName = `log-file-${date}.txt`;
+    const fileName = `log-file-${getCurrentDate()}.txt`;
 
     fs.appendFile(fileName, `${errorMesssage}\n`, 'utf8', err => {
         if (err) throw err;
